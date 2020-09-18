@@ -8,21 +8,21 @@
             <p>宝贝已售罄，敬请期待产品上新哦~</p>
     </div>-->
     <div class="centerlist">
-      <div class="list father" v-for="(order, index) in orders" :key="index" @click="qianggou(order.id)">
-        <!-- <a :href="order.introduce"> -->
+      <div class="list father" v-for="(order, index) in orders" :key="index">   <!-- @click="qianggou(order.id)" -->
+        <a :href="order.introduce">
         <img :src="img + order.cover" alt srcset class="fl" />
-        <!-- </a> -->
+        </a>
         <div class="fl listyou">
           <p class="listP">{{ order.title }}</p>
-          <p class="listP1">{{ order.tags }}</p>
-          <!-- <p class="listP2 father">
+          <!-- <p class="listP1">{{ order.tags }}</p> -->
+          <p class="listP2 father">
             <span class="listSpan1 fl">￥{{order.price}}</span>
             <span class="listSpan2">￥{{order.ori_price}}</span>
-          </p>-->
+          </p>
         </div>
-        <!-- <a :href="order.introduce"> -->
+        <a :href="order.introduce">
         <span class="listSpan3 fr"></span>
-        <!-- </a> -->
+        </a>
       </div>
     </div>
     <van-tabbar v-model="active" route>
@@ -231,7 +231,7 @@ p {
         height: 50px;
         margin-right: 30px;
         margin-top: 55px;
-        background: url("./../img/lijiyuyue.png") no-repeat;
+        background: url("./../img/icon-buy.png") no-repeat;
         background-size: 100% 100%;
       }
     }

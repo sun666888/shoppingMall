@@ -50,9 +50,7 @@
           :key="index1"
           class="swiper-slide"
         >
-          <!-- 具体内容 -->
           <a :href="order.url">
-            <!-- <a> -->
             <img
               class="swiper-img"
               :class="{ active: currentIndex === index1 }"
@@ -89,7 +87,11 @@
         <span class="span1">公告</span>
       </div>
       <div class="gonggaospan father">
-        <span class="span2">OPPO手表正在热卖中！</span>
+        <span class="span2"><van-notice-bar 
+         background= '#fff'
+         color="#000"
+          text="Apple Watch S6正在火热售卖中！"
+        /></span>
         <span class="span3 fr">了解更多&nbsp;&nbsp;></span>
       </div>
     </div>
@@ -108,7 +110,7 @@
         </ul>
       </div>
       <!-- 商城推荐 -->
-      <div class="center" v-show="three">
+      <div class="center" v-if="three">
         <p class="centerp">{{ ordersthree.title }}</p>
         <div class="center-center">
           <div class="center-top">
@@ -140,12 +142,13 @@
           </div>
           <div class="center-bottom">
             <!-- 外链 -->
-            <ul class="father" v-show="wailian">
-              <li v-for="(order, index2) in ordersfour" :key="index2">
+            <ul class="father" v-if="wailian">
+              <li v-for="(order, index3) in ordersfour" :key="index3">
+                <img v-show="order.id == 1002" class="hot" src="./../img/hot.png" alt="">
                 <a :href="order.introduce">
                   <img :src="img + order.cover" alt srcset />
                   <div class="bottom-bottom">
-                    <p class="bottomp1">{{ order.title }}</p>
+                    <p class="bottomp11">{{ order.title }}</p>
                     <p class="bottomp2">{{ order.tags }}</p>
                     <span class="bottomp3">￥{{ order.price }}</span>
                     <span class="listSpan2">￥{{ order.ori_price }}</span>
@@ -154,12 +157,12 @@
               </li>
             </ul>
             <!-- 内链 -->
-            <ul class="father" v-show="zijiList">
-              <li v-for="(order, index2) in orderszijiList" :key="index2">
+            <ul class="father" v-if="zijiList">
+              <li v-for="(order, index4) in orderszijiList" :key="index4">
                 <a href="#" @click="qianggou(order.id)">
                   <img :src="img + order.cover" alt srcset />
                   <div class="bottom-bottom">
-                    <p class="bottomp1">{{ order.title }}</p>
+                    <p class="bottomp11">{{ order.title }}</p>
                     <p class="bottomp2">{{ order.tags }}</p>
                     <span class="bottomp3">￥{{ order.price }}</span>
                     <span class="listSpan2">￥{{ order.ori_price }}</span>
@@ -171,7 +174,7 @@
         </div>
       </div>
       <!-- 爆款热销 -->
-      <div class="center" v-show="rexiao">
+      <div class="center" v-if="rexiao">
         <p class="centerp">{{ rexiaolist.title }}</p>
         <div class="center-center">
           <div class="center-top">
@@ -204,11 +207,11 @@
           <div class="center-bottom">
             <!-- 外链 -->
             <ul class="father">
-              <li  v-show="wailiantwo" v-for="(order, index2) in wailiantwolist" :key="index2">
+              <li v-show="wailiantwo" v-for="(order, index5) in wailiantwolist" :key="index5">
                 <a :href="order.introduce">
                   <img :src="img + order.cover" alt srcset />
                   <div class="bottom-bottom">
-                    <p class="bottomp1">{{ order.title }}</p>
+                    <p class="bottomp11">{{ order.title }}</p>
                     <p class="bottomp2">{{ order.tags }}</p>
                     <span class="bottomp3">￥{{ order.price }}</span>
                     <span class="listSpan2">￥{{ order.ori_price }}</span>
@@ -216,11 +219,11 @@
                 </a>
               </li>
               <!-- 内链 -->
-              <li  v-show="zijiListtwo" v-for="(order, index2) in zijiListtwolist" :key="index2">
+              <li v-show="zijiListtwo" v-for="(order, index6) in zijiListtwolist" :key="index6">
                 <a href="#" @click="qianggou(order.id)">
                   <img :src="img + order.cover" alt srcset />
                   <div class="bottom-bottom">
-                    <p class="bottomp1">{{ order.title }}</p>
+                    <p class="bottomp11">{{ order.title }}</p>
                     <p class="bottomp2">{{ order.tags }}</p>
                     <span class="listSpan3" @click="qianggou(order.id)"
                       >立即预约</span
@@ -304,7 +307,8 @@ import {
   Tabbar,
   TabbarItem,
   Popup,
-  Toast
+  Toast,
+  NoticeBar
 } from "vant";
 import Swiper from "swiper";
 import "swiper/dist/css/swiper.min.css";
@@ -312,6 +316,7 @@ import "swiper/dist/css/swiper.min.css";
 
 export default {
   name: "home",
+  inject: ["reload"],
   components: {
     [Swipe.name]: Swipe,
     [SwipeItem.name]: SwipeItem,
@@ -319,7 +324,8 @@ export default {
     [Tabbar.name]: Tabbar,
     [TabbarItem.name]: TabbarItem,
     [Popup.name]: Popup,
-    [Toast.name]: Toast
+    [Toast.name]: Toast,
+    [NoticeBar.name]: NoticeBar,
   },
   data() {
     return {
@@ -365,6 +371,15 @@ export default {
     // 获取code
      this.getUser()
     this.homelist();
+
+    let isReload1 = window.localStorage.getItem('isReload1')
+    if (isReload1 == null) {
+      location.reload()
+      window.localStorage.setItem('isReload1','111')
+    }
+  },
+  destroyed() {
+    window.localStorage.removeItem('isReload1')
   },
   methods: {
     //获取url中的参数
@@ -631,7 +646,7 @@ export default {
       //   path: "/announcement"
       // });
       window.location.href =
-        "https://card.10010.com/html/actv/term/product-details.html?goodsId=992008215202";
+        "https://card.10010.com/html/actv/term/product-details.html?goodsId=992009186476";
     },
     // 业务专区跳转到公众号在线激活页面
     toJi() {
@@ -809,6 +824,8 @@ a {
       .span2 {
         font-size: 30px;
         display: inline-block;
+        width: 50%;
+        margin-top: -10px;
         margin-left: 20px;
       }
       .span3 {
@@ -875,6 +892,7 @@ a {
   //   }
 
   // }
+  // 
   .listSpan2 {
     display: inline-block;
     font-size: 22px;
@@ -1000,6 +1018,14 @@ a {
               margin-left: 35px;
               margin-bottom: 20px;
               width: 42.5%;
+              position: relative;
+              .hot {
+                position: absolute;
+                display: block;
+                width: 50px;
+                left: 10px;
+                top: 10px;
+              }
               a {
                 width: 100%;
                 display: inline-block;
@@ -1022,7 +1048,7 @@ a {
                     color: #fff;
                     line-height: 1.5;
                   }
-                  .bottomp1 {
+                  .bottomp11 {
                     font-size: 32px;
                     text-overflow: ellipsis;
                     overflow: hidden;

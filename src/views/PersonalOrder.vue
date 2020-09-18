@@ -143,6 +143,7 @@ import { type } from 'os';
 
 export default {
     name: "home",
+    inject: ["reload"],
     components: {
         [Tabbar.name]: Tabbar,
         [TabbarItem.name]: TabbarItem,
@@ -349,7 +350,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" >
 .father:after {
     content: "";
     display: block;

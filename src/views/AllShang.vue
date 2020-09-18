@@ -161,6 +161,7 @@ import {  Search, Tabbar, TabbarItem, Tab, Tabs, Toast } from "vant";
 
 export default {
   name: "home",
+  inject: ["reload"],
   components: {
     [Search.name]: Search,
     [Tabbar.name]: Tabbar,
@@ -192,7 +193,16 @@ export default {
       isDrop: false
     };
   },
+  created() {
+    let isReload = window.localStorage.getItem('isReload')
+    if (isReload == null) {
+      location.reload()
+      window.localStorage.setItem('isReload','111')
+    }
+  },
   mounted () {
+    // this.reload()
+
     let sort = {
       sort : 1
     }
@@ -202,6 +212,10 @@ export default {
             this.orders = orders
           }
     })
+
+  },
+  destroyed() {
+    window.localStorage.removeItem('isReload')
   },
   methods: {
     onClick(name, title) {
@@ -221,9 +235,9 @@ export default {
           sort : 2
         }
         goodsSort (sort).then (resp => {
-          console.log(resp)
+          // console.log(resp)
           let orderstwo = resp.data.goods
-          console.log(orderstwo)
+          // console.log(orderstwo)
         if (orderstwo && orderstwo.length > 0) {
             this.orderstwo = orderstwo
           }
@@ -234,9 +248,9 @@ export default {
           sort : 5
         }
         goodsSort (sort).then (resp => {
-          console.log(resp)
+          // console.log(resp)
           let ordersthree = resp.data.goods
-          console.log(ordersthree)
+          // console.log(ordersthree)
         if (ordersthree && ordersthree.length > 0) {
             this.ordersthree = ordersthree
           }
@@ -250,9 +264,9 @@ export default {
             sort : 4
           }
           goodsSort (sort).then (resp => {
-            console.log(resp)
+            // console.log(resp)
             let ordersfour = resp.data.goods
-            console.log(ordersfour)
+            // console.log(ordersfour)
           if (ordersfour && ordersfour.length > 0) {
               this.ordersfour = ordersfour
             }
@@ -264,9 +278,9 @@ export default {
             sort : 3
           }
           goodsSort (sort).then (resp => {
-            console.log(resp)
+            // console.log(resp)
             let ordersfour = resp.data.goods
-            console.log(ordersfour)
+            // console.log(ordersfour)
           if (ordersfour && ordersfour.length > 0) {
               this.ordersfour = ordersfour
             }
@@ -286,9 +300,9 @@ export default {
           }
         this.isRise=!this.isRise;
          goodsSort (sort).then (resp => {
-            console.log(resp)
+            // console.log(resp)
             let ordersfour = resp.data.goods
-            console.log(ordersfour)
+            // console.log(ordersfour)
           if (ordersfour && ordersfour.length > 0) {
               this.ordersfour = ordersfour
             }
@@ -299,9 +313,9 @@ export default {
           }
         this.isDrop=!this.isDrop;
          goodsSort (sort).then (resp => {
-            console.log(resp)
+            // console.log(resp)
             let ordersfour = resp.data.goods
-            console.log(ordersfour)
+            // console.log(ordersfour)
           if (ordersfour && ordersfour.length > 0) {
               this.ordersfour = ordersfour
             }
@@ -312,14 +326,14 @@ export default {
     ShoppingCart (id,introduce) {
     
       if (introduce=='') {
-        console.log('111')
+        // console.log('111')
         this.$router.push({
           path: "/details", 
           query: { id: id }
         })
       } else {
-        console.log('222')
-        console.log(introduce)
+        // console.log('222')
+        // console.log(introduce)
         window.location.href = introduce
       }
       
@@ -327,7 +341,7 @@ export default {
     // 确定搜索时触发
     onSearch () {
       let search = this.search
-      console.log(search)
+      // console.log(search)
       this.$router.push({
         path: "/allShangtwo", 
         query: { 
@@ -339,7 +353,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" >
 .father:after {
   content: "";
   display: block;

@@ -164,6 +164,7 @@ import {
 } from "./services/home";
 
 export default {
+  inject: ["reload"],
   components: {
     [Swipe.name]: Swipe,
     [SwipeItem.name]: SwipeItem,
@@ -309,16 +310,24 @@ export default {
       initialSku: {
         s1: "",
         s2: ""
-      }
+      },
+      isReload: true
     };
   },
   mounted() {
     this.goodsdetail();
     this.getUser()
+
+    let isReload = window.localStorage.getItem('isReload')
+    if (isReload == null) {
+      location.reload()
+      window.localStorage.setItem('isReload','111')
+    }
   },
+  
   methods: {
     goodsdetail() {
-      console.log("goodsdetail")
+      // console.log("goodsdetail")
       let url = window.location.href;
       // let id = url.split('?')[1].split('=')[1]
       this.id = url
@@ -329,11 +338,11 @@ export default {
       let gid = {
         g_id: this.id
       };
-      console.log(this.id)
+      // console.log(this.id)
       goodsdetail(gid).then(resp => {
-        console.log("---")
-        console.log(resp.data);
-         console.log("---")
+        // console.log("---")
+        // console.log(resp.data);
+        //  console.log("---")
         this.goods.title = resp.data.goods_info[0].title;
         // this.goods.picture =
       //  this.img + resp.data.goods_info[0].colour[0].colour_img;
@@ -355,7 +364,7 @@ export default {
 
         // 颜色 { k: '颜色', v: [], k_s: 's1' }
         const cartColors = carts.colour;
-        console.log(cartColors);
+        // console.log(cartColors);
         cartColors.forEach(x => {
           x.id = x.colour;
           x.name = x.colour;
@@ -384,7 +393,7 @@ export default {
           x.price = parseInt(Number(x.price) * 100, 10); // 单位（分）
           x.goods_id = carts.id; // 商品id
         });
-        console.log(cartList);
+        // console.log(cartList);
         let fSize = "";
         let fcolor = "";
         for (let i = 0; i < cartList.length; i++) {
@@ -476,7 +485,7 @@ export default {
     handleFetchCode() {
       let regPhone = /^1[0-9]{10}$/;
       const mobile = this.mobile;
-      console.log(mobile);
+      // console.log(mobile);
       if (regPhone.test(mobile)) {
         this.timeDown();
         verify(mobile).then(resp => {
@@ -516,7 +525,7 @@ export default {
         return false;
       } else {
         binding(this.mobile, this.verify).then(resp => {
-          console.log(resp);
+          // console.log(resp);
           let code = resp.code;
           if (code == 200) {
             this.loginshow = false;
@@ -544,7 +553,7 @@ export default {
     onBuyClicked(buyData) {
       // 点击立即购买的回调
       // 获取选择的商品
-      console.log(buyData)
+      // console.log(buyData)
       const selectedData = buyData.selectedSkuComb;
 
       // 商品ID
@@ -571,7 +580,7 @@ export default {
     },
     // 加入购物车
     onAddCartClicked(skuData) {
-      console.log(skuData);
+      // console.log(skuData);
       let gId = skuData.selectedSkuComb.gid;
       let price = (skuData.selectedSkuComb.price || 0) / 100;
       let size = skuData.selectedSkuComb.size;

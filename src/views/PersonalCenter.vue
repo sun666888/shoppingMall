@@ -117,6 +117,7 @@ import { Tabbar, TabbarItem, Toast, Col, Row } from "vant";
 
 export default {
     name: "home",
+    inject: ["reload"],
     components: {
         [Tabbar.name]: Tabbar,
         [TabbarItem.name]: TabbarItem,
@@ -142,6 +143,15 @@ export default {
     },
     mounted () {
         this.userinfo()
+        
+        let isReload2 = window.localStorage.getItem('isReload2')
+        if (isReload2 == null) {
+        location.reload()
+        window.localStorage.setItem('isReload2','111')
+        }
+    },
+    destroyed() {
+        window.localStorage.removeItem('isReload2')
     },
     methods: {
         userinfo() {
